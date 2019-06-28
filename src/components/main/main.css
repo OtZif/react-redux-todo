@@ -1,0 +1,30 @@
+.main {
+  position: relative;
+  border-top: 1px solid #e6e6e6; }
+  .main .toggle-all {
+    position: absolute;
+    right: 100%;
+    bottom: 100%;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    border: none;
+    background: none; }
+  .main .toggle-all + label {
+    position: absolute;
+    top: -52px;
+    left: -3px;
+    width: 60px;
+    height: 34px;
+    font-size: 0;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg); }
+  .main .toggle-all + label:before {
+    content: "\270E";
+    color: #e6e6e6;
+    font-size: 22px;
+    padding: 10px 27px 10px 27px; }
+  .main .toggle-all:checked + label:before {
+    color: #737373; }
+
+/*# sourceMappingURL=main.css.map */
