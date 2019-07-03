@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import classNames from "classnames";
 import "./footer.css";
-import * as actions from "../../actions";
 
 class Footer extends Component {
   buttons = [
@@ -13,34 +10,39 @@ class Footer extends Component {
   ];
 
   clearAmount = () => {
-    const amount = this.props.todos.filter(el => el.checked).length;
+    const { todos } = this.props;
+    const amount = todos.filter(el => el.checked).length;
     return amount === 0 ? `clear-completed visibility` : "clear-completed";
   };
 
   amount = () => {
-    if (this.props.amount <= 1) {
-      return `${this.props.amount} item left`;
+    const { amount } = this.props;
+    if (amount <= 1) {
+      return `${amount} item left`;
     } else {
-      return `${this.props.amount} items left`;
+      return `${amount} items left`;
     }
   };
 
   renderButtons = () => {
+    const { visibilityFilter, actions } = this.props;
     return this.buttons.map(({ name, label }) => {
       return (
         <button
           key={name}
-          className={classNames(
-            `control--item  ${
-              this.props.visibilityFilter === name ? "selected" : ""
-            } `
-          )}
-          onClick={() => this.props.actions.setVisibilityFilter(name)}
+          className={classNames("control--item", {
+            selected: visibilityFilter === name
+          })}
+          onClick={() => actions.setVisibilityFilter(name)}
         >
           {label}
         </button>
       );
     });
+  };
+  handleClickRemoveCompleted = () => {
+    const { actions } = this.props;
+    return actions.removeCompleted();
   };
 
   render() {
@@ -50,7 +52,7 @@ class Footer extends Component {
         <div className="control">{this.renderButtons()}</div>
         <button
           className={this.clearAmount()}
-          onClick={() => this.props.actions.removeCompleted()}
+          onClick={this.handleClickRemoveCompleted}
         >
           Clear completed
         </button>
@@ -58,17 +60,5 @@ class Footer extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  visibilityFilter: state.visibilityFilter,
-  todos: [...state.todos],
-  amount: state.todos.filter(el => !el.checked).length
-});
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Footer);
+export default Footer;

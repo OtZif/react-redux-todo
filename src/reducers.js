@@ -7,11 +7,12 @@ import {
   CHECK_ALL_TODO,
   EDIT_TODO,
   CHANGE_EDIT_ID,
-  Filters
+  CHECK_PEN,
+  filters
 } from "./actions";
 
 const initialState = JSON.parse(localStorage.getItem("todo")) || {
-  visibilityFilter: Filters.SHOW_ALL,
+  visibilityFilter: filters.SHOW_ALL,
   nextId: 0,
   allChecked: false,
   currentEdit: null,
@@ -34,15 +35,18 @@ export const reducer = (state = initialState, action) => {
             checked: false
           }
         ],
-        nextId: state.nextId + 1
+        nextId: state.nextId + 1,
+        allChecked: false
       });
     case REMOVE_TODO:
       return Object.assign({}, state, {
         todos: state.todos.filter(el => el.id !== action.id)
+        //allChecked: state.todos.every(el=>el.checked)
       });
     case REMOVE_COMPLETED:
       return Object.assign({}, state, {
-        todos: state.todos.filter(el => !el.checked)
+        todos: state.todos.filter(el => !el.checked),
+        allChecked: false
       });
     case CHECK_ALL_TODO:
       return Object.assign({}, state, {
@@ -52,13 +56,15 @@ export const reducer = (state = initialState, action) => {
       });
     case EDIT_TODO:
       return Object.assign({}, state, {
+        ...state,
         todos: state.todos.map(el => {
           if (el.id === action.id) {
-            el.text = action.text;
+            return {
+              ...el,
+              text: action.text
+            };
           }
-          return {
-            ...el
-          };
+          return el;
         }),
         currentEdit: null
       });
@@ -76,6 +82,11 @@ export const reducer = (state = initialState, action) => {
           }
           return todo;
         })
+      });
+    case CHECK_PEN:
+      return Object.assign({}, state, {
+        ...state,
+        allChecked: !state.allChecked
       });
 
     default:

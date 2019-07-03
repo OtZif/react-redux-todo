@@ -4,10 +4,11 @@ export const TOGGLE_TODO = "TOGGLE_TODO";
 export const SET_VISIBILITY_FILTER = "SET_VISIBILITY_FILTER";
 export const REMOVE_COMPLETED = "REMOVE_COMPLETED";
 export const CHECK_ALL_TODO = "CHECK_ALL_TODO";
-export const EDIT_TODO = "EDIT_TODO";
+export const CHECK_PEN = "CHECK_PEN";
+export const EDIT_TODO = "EDIT_TODO;";
 export const CHANGE_EDIT_ID = "CHANGE_EDIT_ID";
 
-export const Filters = {
+export const filters = {
   SHOW_ALL: "SHOW_ALL",
   SHOW_ACTIVE: "SHOW_ACTIVE",
   SHOW_COMPLETED: "SHOW_COMPLETED"
@@ -42,6 +43,12 @@ export const toggleTodo = id => {
 export const checkAllTodo = () => {
   return {
     type: CHECK_ALL_TODO
+  };
+};
+
+export const checkPen = () => {
+  return {
+    type: CHECK_PEN
   };
 };
 

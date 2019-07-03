@@ -1,14 +1,6 @@
 import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import * as actions from "../../actions";
 
-const TaskItem = ({
-  visibilityFilter,
-  todos,
-  currentEdit,
-  actions,
-}) => {
+const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
   const visible = todos.filter(el => {
     return (
       visibilityFilter === "SHOW_ALL" ||
@@ -18,33 +10,45 @@ const TaskItem = ({
   });
 
   const element = visible.map(item => {
+    const handlerClickCheckTodo = () => {
+      return actions.toggleTodo(item.id);
+    };
+    const handlerDbClickTodoEdit = () => {
+      return actions.changeEditId(item.id);
+    };
+    const handlerClickDestroyItem = () => {
+      return actions.destroy(item.id);
+    };
+
+    const handlerOnBlur = e => {
+      if (e.target.value.trim() === "") {
+        return actions.destroy(item.id);
+      } else {
+        actions.editTodo(item.id, e.target.value);
+        e.target.value = "";
+      }
+    };
+    const pressEnter = e => {
+      const ENTER_KEY = 13;
+      if (e.keyCode === ENTER_KEY) {
+        if (e.target.value.trim() === "") {
+          return actions.destroy(item.id);
+        } else {
+          actions.editTodo(item.id, e.target.value);
+          e.target.value = "";
+        }
+      }
+    };
+
     if (currentEdit === item.id) {
       return (
         <li key={item.id}>
           <input
-            id={currentEdit.id}
             className="edit"
             autoFocus
             defaultValue={item.text}
-            onBlur={e => {
-              if (e.target.value.trim() === "") {
-                return actions.destroy(item.id);
-              } else {
-                actions.editTodo(item.id, e.target.value);
-                e.target.value = "";
-              }
-            }}
-            onKeyUp={e => {
-              //const {dispatch} = store;
-              if (e.keyCode === 13) {
-                if (e.target.value.trim() === "") {
-                  return actions.destroy(item.id);
-                } else {
-                  actions.editTodo(item.id, e.target.value);
-                  e.target.value = "";
-                }
-              }
-            }}
+            onBlur={handlerOnBlur}
+            onKeyUp={pressEnter}
           />
         </li>
       );
@@ -57,15 +61,10 @@ const TaskItem = ({
             type="checkbox"
             className="toggle"
             checked={item.checked}
-            onChange={() => actions.toggleTodo(item.id)}
+            onChange={handlerClickCheckTodo}
           />
-          <label onDoubleClick={() => actions.changeEditId(item.id)}>
-            {item.text}
-          </label>
-          <button
-            className="destroy"
-            onClick={() => actions.destroy(item.id)}
-          />
+          <label onDoubleClick={handlerDbClickTodoEdit}>{item.text}</label>
+          <button className="destroy" onClick={handlerClickDestroyItem} />
         </div>
       </li>
     );
@@ -73,15 +72,4 @@ const TaskItem = ({
   return element;
 };
 
-const mapStateToProps = state => ({
-  visibilityFilter: state.visibilityFilter,
-  todos: state.todos,
-  currentEdit: state.currentEdit
-});
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TaskItem);
+export default TaskItem;

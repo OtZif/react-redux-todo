@@ -1,39 +1,51 @@
 import React, { Component } from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import "./main.css";
 import Tasks from "../tasks/task";
-import * as actions from "../../actions";
 
 class Main extends Component {
+  penStatus = () => {
+    const { todos, allChecked, actions } = this.props;
+    const status = todos.every(el => el.checked);
+    if (status) {
+      if (!allChecked) {
+        actions.checkPen();
+      }
+    } else {
+      if (allChecked) {
+        actions.checkPen();
+      }
+    }
+    return status;
+  };
+
+  handleClickCheckAllTodo = () => {
+    const { actions } = this.props;
+    return actions.checkAllTodo();
+  };
+
   render() {
+    const { todos, currentEdit, visibilityFilter, actions } = this.props;
     return (
       <main className="main">
-        {this.props.base.length > 0 && (
+        {todos.length > 0 && (
           <input
             id="toggle-all"
             className="toggle-all"
             type="checkbox"
-            onChange={() => this.props.complete.checkAllTodo()}
-            checked={this.props.base.every(el => el.checked)}
+            onChange={this.handleClickCheckAllTodo}
+            checked={this.penStatus()}
           />
         )}
         <label className="pen" htmlFor="toggle-all" />
-        <Tasks />
+        <Tasks
+          todos={todos}
+          currentEdit={currentEdit}
+          visibilityFilter={visibilityFilter}
+          actions={actions}
+        />
       </main>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  base: state.todos,
-  allChecked: state.allChecked
-});
-const mapDispatchToProps = dispatch => ({
-  complete: bindActionCreators(actions, dispatch)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Main);
+export default Main;
