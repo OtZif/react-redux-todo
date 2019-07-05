@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import classNames from "classnames";
 import "./footer.css";
 
@@ -23,26 +24,29 @@ class Footer extends Component {
       return `${amount} items left`;
     }
   };
+  handleRemoveCompletedClick = () => {
+    const { actions } = this.props;
+    return actions.removeCompleted();
+  };
 
   renderButtons = () => {
     const { visibilityFilter, actions } = this.props;
     return this.buttons.map(({ name, label }) => {
+      const handleFilterChange = () => {
+        actions.setVisibilityFilter(name);
+      };
       return (
         <button
           key={name}
           className={classNames("control--item", {
             selected: visibilityFilter === name
           })}
-          onClick={() => actions.setVisibilityFilter(name)}
+          onClick={handleFilterChange}
         >
           {label}
         </button>
       );
     });
-  };
-  handleClickRemoveCompleted = () => {
-    const { actions } = this.props;
-    return actions.removeCompleted();
   };
 
   render() {
@@ -52,7 +56,7 @@ class Footer extends Component {
         <div className="control">{this.renderButtons()}</div>
         <button
           className={this.clearAmount()}
-          onClick={this.handleClickRemoveCompleted}
+          onClick={this.handleRemoveCompletedClick}
         >
           Clear completed
         </button>
@@ -60,5 +64,11 @@ class Footer extends Component {
     );
   }
 }
+
+Footer.propTypes = {
+  todos: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
+  visibilityFilter: PropTypes.string.isRequired
+};
 
 export default Footer;

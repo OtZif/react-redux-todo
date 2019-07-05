@@ -1,0 +1,10 @@
+export const ADD_TODO = "ADD_TODO";
+export const REMOVE_TODO = "REMOVE_TODO";
+export const TOGGLE_TODO = "TOGGLE_TODO";
+export const SET_VISIBILITY_FILTER = "SET_VISIBILITY_FILTER";
+export const REMOVE_COMPLETED = "REMOVE_COMPLETED";
+export const CHECK_ALL_TODO = "CHECK_ALL_TODO";
+export const CHECK_PEN = "CHECK_PEN";
+export const EDIT_TODO = "EDIT_TODO;";
+export const CHANGE_EDIT_ID = "CHANGE_EDIT_ID";
+export const ENTER_KEY = 13;

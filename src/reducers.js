@@ -7,15 +7,16 @@ import {
   CHECK_ALL_TODO,
   EDIT_TODO,
   CHANGE_EDIT_ID,
-  CHECK_PEN,
-  filters
-} from "./actions";
+  CHECK_PEN
+} from "./components/constants/constants";
+
+import { filters } from "./actions";
 
 const initialState = JSON.parse(localStorage.getItem("todo")) || {
   visibilityFilter: filters.SHOW_ALL,
   nextId: 0,
   allChecked: false,
-  currentEdit: null,
+  currentEdit: -1,
   todos: []
 };
 
@@ -25,6 +26,7 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         visibilityFilter: action.filter
       });
+
     case ADD_TODO:
       return Object.assign({}, state, {
         todos: [
@@ -38,22 +40,25 @@ export const reducer = (state = initialState, action) => {
         nextId: state.nextId + 1,
         allChecked: false
       });
+
     case REMOVE_TODO:
       return Object.assign({}, state, {
         todos: state.todos.filter(el => el.id !== action.id)
-        //allChecked: state.todos.every(el=>el.checked)
       });
+
     case REMOVE_COMPLETED:
       return Object.assign({}, state, {
         todos: state.todos.filter(el => !el.checked),
         allChecked: false
       });
+
     case CHECK_ALL_TODO:
       return Object.assign({}, state, {
         ...state,
         todos: state.todos.map(el => ({ ...el, checked: !state.allChecked })),
         allChecked: !state.allChecked
       });
+
     case EDIT_TODO:
       return Object.assign({}, state, {
         ...state,
@@ -66,12 +71,14 @@ export const reducer = (state = initialState, action) => {
           }
           return el;
         }),
-        currentEdit: null
+        currentEdit: -1
       });
+
     case CHANGE_EDIT_ID:
       return Object.assign({}, state, {
         currentEdit: action.id
       });
+
     case TOGGLE_TODO:
       return Object.assign({}, state, {
         todos: state.todos.map((todo, id) => {
@@ -83,6 +90,7 @@ export const reducer = (state = initialState, action) => {
           return todo;
         })
       });
+
     case CHECK_PEN:
       return Object.assign({}, state, {
         ...state,

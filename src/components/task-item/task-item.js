@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { ENTER_KEY } from "../constants/constants";
 
 const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
   const visible = todos.filter(el => {
@@ -10,17 +12,17 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
   });
 
   const element = visible.map(item => {
-    const handlerClickCheckTodo = () => {
+    const handleCheckTodo = () => {
       return actions.toggleTodo(item.id);
     };
-    const handlerDbClickTodoEdit = () => {
+    const handleTodoEdit = () => {
       return actions.changeEditId(item.id);
     };
-    const handlerClickDestroyItem = () => {
+    const handleDestroyItem = () => {
       return actions.destroy(item.id);
     };
 
-    const handlerOnBlur = e => {
+    const handleAddItemOnLossFocus = e => {
       if (e.target.value.trim() === "") {
         return actions.destroy(item.id);
       } else {
@@ -28,8 +30,7 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
         e.target.value = "";
       }
     };
-    const pressEnter = e => {
-      const ENTER_KEY = 13;
+    const handleAddItemByPressEnter = e => {
       if (e.keyCode === ENTER_KEY) {
         if (e.target.value.trim() === "") {
           return actions.destroy(item.id);
@@ -47,8 +48,8 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
             className="edit"
             autoFocus
             defaultValue={item.text}
-            onBlur={handlerOnBlur}
-            onKeyUp={pressEnter}
+            onBlur={handleAddItemOnLossFocus}
+            onKeyUp={handleAddItemByPressEnter}
           />
         </li>
       );
@@ -58,18 +59,25 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
       <li key={item.id}>
         <div className="view">
           <input
-            type="checkbox"
             className="toggle"
+            type="checkbox"
             checked={item.checked}
-            onChange={handlerClickCheckTodo}
+            onChange={handleCheckTodo}
           />
-          <label onDoubleClick={handlerDbClickTodoEdit}>{item.text}</label>
-          <button className="destroy" onClick={handlerClickDestroyItem} />
+          <label onDoubleClick={handleTodoEdit}>{item.text}</label>
+          <button className="destroy" onClick={handleDestroyItem} />
         </div>
       </li>
     );
   });
   return element;
+};
+
+TaskItem.propTypes = {
+  todos: PropTypes.array.isRequired,
+  currentEdit: PropTypes.number.isRequired,
+  visibilityFilter: PropTypes.string.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 export default TaskItem;

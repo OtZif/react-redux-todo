@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./main.css";
 import Tasks from "../tasks/task";
 
@@ -18,7 +19,7 @@ class Main extends Component {
     return status;
   };
 
-  handleClickCheckAllTodo = () => {
+  handleCheckAllTodo = () => {
     const { actions } = this.props;
     return actions.checkAllTodo();
   };
@@ -29,11 +30,11 @@ class Main extends Component {
       <main className="main">
         {todos.length > 0 && (
           <input
-            id="toggle-all"
             className="toggle-all"
+            id="toggle-all"
             type="checkbox"
-            onChange={this.handleClickCheckAllTodo}
             checked={this.penStatus()}
+            onChange={this.handleCheckAllTodo}
           />
         )}
         <label className="pen" htmlFor="toggle-all" />
@@ -47,5 +48,13 @@ class Main extends Component {
     );
   }
 }
+
+Main.propTypes = {
+  todos: PropTypes.array.isRequired,
+  allChecked: PropTypes.bool.isRequired,
+  actions: PropTypes.object.isRequired,
+  currentEdit: PropTypes.number.isRequired,
+  visibilityFilter: PropTypes.string.isRequired
+};
 
 export default Main;

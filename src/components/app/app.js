@@ -1,12 +1,11 @@
 import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+
 import Title from "../title/title";
 import Header from "../header/header";
 import Main from "../main/main";
 import Footer from "../footer/footer";
 import "./app.css";
-import * as actions from "../../actions";
 
 const App = ({
   todos,
@@ -40,17 +39,14 @@ const App = ({
     </div>
   );
 };
-const mapStateToProps = state => ({
-  todos: state.todos,
-  visibilityFilter: state.visibilityFilter,
-  amount: state.todos.filter(el => !el.checked).length,
-  allChecked: state.allChecked,
-  currentEdit: state.currentEdit
-});
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+
+App.propTypes = {
+  todos:PropTypes.array.isRequired,
+  visibilityFilter: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  actions:PropTypes.object.isRequired,
+  allChecked: PropTypes.bool.isRequired,
+  currentEdit: PropTypes.number.isRequired,
+};
+
+export default App;

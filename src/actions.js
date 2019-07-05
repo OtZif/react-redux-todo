@@ -1,12 +1,14 @@
-export const ADD_TODO = "ADD_TODO";
-export const REMOVE_TODO = "REMOVE_TODO";
-export const TOGGLE_TODO = "TOGGLE_TODO";
-export const SET_VISIBILITY_FILTER = "SET_VISIBILITY_FILTER";
-export const REMOVE_COMPLETED = "REMOVE_COMPLETED";
-export const CHECK_ALL_TODO = "CHECK_ALL_TODO";
-export const CHECK_PEN = "CHECK_PEN";
-export const EDIT_TODO = "EDIT_TODO;";
-export const CHANGE_EDIT_ID = "CHANGE_EDIT_ID";
+import {
+  ADD_TODO,
+  REMOVE_TODO,
+  REMOVE_COMPLETED,
+  TOGGLE_TODO,
+  CHECK_ALL_TODO,
+  CHECK_PEN,
+  SET_VISIBILITY_FILTER,
+  EDIT_TODO,
+  CHANGE_EDIT_ID
+} from "./components/constants/constants";
 
 export const filters = {
   SHOW_ALL: "SHOW_ALL",

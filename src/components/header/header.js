@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./header.css";
+import { ENTER_KEY } from "../constants/constants";
 
 const Header = ({ actions }) => {
-  const handlerOnBlur = e => {
+  const handleAddItemOnLossingFoces = e => {
     if (e.target.value.trim() === "") {
       return;
     } else {
@@ -11,8 +13,7 @@ const Header = ({ actions }) => {
     }
   };
 
-  const pressEnter = e => {
-    const ENTER_KEY = 13;
+  const handleAddItemByPressEnter = e => {
     if (e.keyCode === ENTER_KEY) {
       if (e.target.value.trim() === "") {
         return;
@@ -26,15 +27,19 @@ const Header = ({ actions }) => {
   return (
     <header className="header">
       <input
-        type="text"
         className="header--new-task"
+        type="text"
         placeholder="What needs to be done?"
         autoFocus
-        onBlur={handlerOnBlur}
-        onKeyUp={pressEnter}
+        onBlur={handleAddItemOnLossingFoces}
+        onKeyUp={handleAddItemByPressEnter}
       />
     </header>
   );
+};
+
+Header.propTypes = {
+  actions: PropTypes.object.isRequired
 };
 
 export default Header;
