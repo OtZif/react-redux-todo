@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./header.css";
-import { ENTER_KEY } from "../constants/constants";
+import { ENTER_KEY } from "../../constants/constants";
 
 const Header = ({ actions }) => {
-  const handleAddItemOnLossingFoces = e => {
+  const handleAddItemBlur = e => {
     if (e.target.value.trim() === "") {
       return;
     } else {
@@ -13,7 +13,7 @@ const Header = ({ actions }) => {
     }
   };
 
-  const handleAddItemByPressEnter = e => {
+  const handleAddItemKeyUp = e => {
     if (e.keyCode === ENTER_KEY) {
       if (e.target.value.trim() === "") {
         return;
@@ -31,8 +31,8 @@ const Header = ({ actions }) => {
         type="text"
         placeholder="What needs to be done?"
         autoFocus
-        onBlur={handleAddItemOnLossingFoces}
-        onKeyUp={handleAddItemByPressEnter}
+        onBlur={handleAddItemBlur}
+        onKeyUp={handleAddItemKeyUp}
       />
     </header>
   );

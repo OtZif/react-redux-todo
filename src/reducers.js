@@ -8,7 +8,7 @@ import {
   EDIT_TODO,
   CHANGE_EDIT_ID,
   CHECK_PEN
-} from "./components/constants/constants";
+} from "./constants/constants";
 
 import { filters } from "./actions";
 

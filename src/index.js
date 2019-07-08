@@ -4,7 +4,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import "./custom-reset.css";
 import { reducer } from "./reducers";
-import Container from "./components/container/container";
+import AppContainer from "./containers/AppContainer";
 
 let store = createStore(reducer);
 
@@ -16,7 +16,7 @@ store.subscribe(update);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Container />
+    <AppContainer />
   </Provider>,
   document.querySelector("#root")
 );

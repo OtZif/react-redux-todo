@@ -2,10 +2,10 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import App from "../app/app";
-import * as actions from "../../actions";
+import App from "../components/app/app";
+import * as actions from "../actions";
 
-const Container = ({
+const AppContainer = ({
   todos,
   visibilityFilter,
   amount,
@@ -25,7 +25,7 @@ const Container = ({
   );
 };
 
-Container.propTypes = {
+AppContainer.propTypes = {
   todos:PropTypes.array.isRequired,
   visibilityFilter: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
@@ -48,4 +48,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Container);
+)(AppContainer);

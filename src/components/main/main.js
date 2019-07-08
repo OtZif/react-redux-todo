@@ -19,7 +19,7 @@ class Main extends Component {
     return status;
   };
 
-  handleCheckAllTodo = () => {
+  handleToggleAllChange = () => {
     const { actions } = this.props;
     return actions.checkAllTodo();
   };
@@ -34,7 +34,7 @@ class Main extends Component {
             id="toggle-all"
             type="checkbox"
             checked={this.penStatus()}
-            onChange={this.handleCheckAllTodo}
+            onChange={this.handleToggleAllChange}
           />
         )}
         <label className="pen" htmlFor="toggle-all" />

@@ -8,7 +8,7 @@ import {
   SET_VISIBILITY_FILTER,
   EDIT_TODO,
   CHANGE_EDIT_ID
-} from "./components/constants/constants";
+} from "./constants/constants";
 
 export const filters = {
   SHOW_ALL: "SHOW_ALL",

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ENTER_KEY } from "../constants/constants";
+import { ENTER_KEY } from "../../constants/constants";
 
 const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
   const visible = todos.filter(el => {
@@ -12,17 +12,17 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
   });
 
   const element = visible.map(item => {
-    const handleCheckTodo = () => {
+    const handleCheckboxChange = () => {
       return actions.toggleTodo(item.id);
     };
-    const handleTodoEdit = () => {
+    const handleEdit = () => {
       return actions.changeEditId(item.id);
     };
     const handleDestroyItem = () => {
       return actions.destroy(item.id);
     };
 
-    const handleAddItemOnLossFocus = e => {
+    const handleAddItemBlur = e => {
       if (e.target.value.trim() === "") {
         return actions.destroy(item.id);
       } else {
@@ -30,7 +30,7 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
         e.target.value = "";
       }
     };
-    const handleAddItemByPressEnter = e => {
+    const handleAddItemKeyUp = e => {
       if (e.keyCode === ENTER_KEY) {
         if (e.target.value.trim() === "") {
           return actions.destroy(item.id);
@@ -48,8 +48,8 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
             className="edit"
             autoFocus
             defaultValue={item.text}
-            onBlur={handleAddItemOnLossFocus}
-            onKeyUp={handleAddItemByPressEnter}
+            onBlur={handleAddItemBlur}
+            onKeyUp={handleAddItemKeyUp}
           />
         </li>
       );
@@ -62,9 +62,9 @@ const TaskItem = ({ todos, currentEdit, visibilityFilter, actions }) => {
             className="toggle"
             type="checkbox"
             checked={item.checked}
-            onChange={handleCheckTodo}
+            onChange={handleCheckboxChange}
           />
-          <label onDoubleClick={handleTodoEdit}>{item.text}</label>
+          <label onDoubleClick={handleEdit}>{item.text}</label>
           <button className="destroy" onClick={handleDestroyItem} />
         </div>
       </li>
